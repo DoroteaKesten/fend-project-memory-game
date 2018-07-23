@@ -69,10 +69,16 @@ function addToShownList(card) {
     shownCards.push(card);
 };
 
+function openCard(card) {
+    card.classList.add("open", "show");
+};
+
 function click(card) {
     card.addEventListener("click", function showCard() {
-        card.classList.add("open", "show");
-        addToShownList(card);
+          if (shownCards.length < 2) {
+          openCard(card);
+          addToShownList(card);
+          };
     });
 };
 
