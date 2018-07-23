@@ -75,12 +75,30 @@ function openCard(card) {
 
 function click(card) {
     card.addEventListener("click", function showCard() {
-          if (shownCards.length < 2) {
-          openCard(card);
-          addToShownList(card);
-          };
+        if (shownCards.length < 2) {
+              openCard(card);
+              addToShownList(card);
+        };
     });
 };
+
+
+let [firstCard, secondCard] = shownCards;
+
+if (shownCards.length === 2) {
+    match();
+};
+
+function match() {
+    if (firstCard.innerHTML === secondCard.innerHTML) {
+        console.log("They match! Keep going!");
+    }
+
+    else {
+        console.log("Nope, they don't match. Try again.");
+    };
+};
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
