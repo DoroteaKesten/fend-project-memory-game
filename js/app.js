@@ -11,6 +11,8 @@ let cardsList = ["fa fa-diamond", "fa fa-diamond",
                  "fa fa-bicycle", "fa fa-bicycle",
                  "fa fa-bomb", "fa fa-bomb"]
 
+const deck = document.querySelector(".deck");
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -22,22 +24,25 @@ cardsDisplay();
 
 function cardsDisplay() {
 
-const deck = document.querySelector(".deck");
-const deckFragment = document.createDocumentFragment();
 
-deck.innerHTML = "";
+    const deckFragment = document.createDocumentFragment();
 
-shuffle(cardsList);
+    //Clean the HTML cards
+    deck.innerHTML = "";
 
-cardsList.forEach(function(item) {
-    const card = document.createElement("li");
-    card.className = "card";
-    const icon = document.createElement("i");
-    icon.className = item;
-    card.appendChild(icon);
-    deckFragment.appendChild(card);
-});
-    deck.appendChild(deckFragment);
+    shuffle(cardsList);
+
+    //loop through an array of cardsList and create HTML cards
+    cardsList.forEach(function(item) {
+        const card = document.createElement("li");
+        card.className = "card";
+        const icon = document.createElement("i");
+        icon.className = item;
+        click(card);
+        card.appendChild(icon);
+        deckFragment.appendChild(card);
+    });
+        deck.appendChild(deckFragment);
 };
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -59,6 +64,17 @@ function shuffle(array) {
 
 let shownCards = [];
 let matchedCards = [];
+
+function addToShownList(card) {
+    shownCards.push(card);
+};
+
+function click(card) {
+    card.addEventListener("click", function showCard() {
+        card.classList.add("open", "show");
+        addToShownList(card);
+    });
+};
 
 /*
  * set up the event listener for a card. If a card is clicked:
