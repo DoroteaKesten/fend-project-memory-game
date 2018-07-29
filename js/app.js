@@ -24,9 +24,6 @@ cardsDisplay();
 
 function cardsDisplay() {
 
-
-    const deckFragment = document.createDocumentFragment();
-
     //Clean the HTML cards
     deck.innerHTML = "";
 
@@ -40,9 +37,9 @@ function cardsDisplay() {
         icon.className = item;
         click(card);
         card.appendChild(icon);
-        deckFragment.appendChild(card);
+        deck.appendChild(card);
     });
-        deck.appendChild(deckFragment);
+
 };
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -65,38 +62,31 @@ function shuffle(array) {
 let shownCards = [];
 let matchedCards = [];
 
-function addToShownList(card) {
-    shownCards.push(card);
-};
 
-function openCard(card) {
-    card.classList.add("open", "show");
-};
 
 function click(card) {
     card.addEventListener("click", function showCard() {
         if (shownCards.length < 2) {
-              openCard(card);
-              addToShownList(card);
+              card.classList.add("open", "show");
+              shownCards.push(card);
         };
+        setTimeout(function match() {
+          if (shownCards.length === 2) {
+              if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
+                  console.log("They match! Keep going!");
+                  shownCards.forEach(function(card) {
+                    card.classList.add("match");
+                  });
+              } else {
+                  console.log("Nope, they don't match. Try again.");
+                  shownCards.forEach(function(card) {
+                    card.classList.remove("open", "show");
+                  });
+              };
+          shownCards = [];
+          };
+        }, 1500);
     });
-};
-
-
-let [firstCard, secondCard] = shownCards;
-
-if (shownCards.length === 2) {
-    match();
-};
-
-function match() {
-    if (firstCard.innerHTML === secondCard.innerHTML) {
-        console.log("They match! Keep going!");
-    }
-
-    else {
-        console.log("Nope, they don't match. Try again.");
-    };
 };
 
 
