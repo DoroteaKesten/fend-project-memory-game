@@ -13,6 +13,8 @@ let cardsList = ["fa fa-diamond", "fa fa-diamond",
 
 const deck = document.querySelector(".deck");
 
+const moves = document.querySelector(".moves");
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -62,6 +64,7 @@ function shuffle(array) {
 let shownCards = [];
 let matchedCards = [];
 
+let count = 0
 
 
 function click(card) {
@@ -76,6 +79,8 @@ function click(card) {
                   console.log("They match! Keep going!");
                   shownCards.forEach(function(card) {
                     card.classList.add("match");
+                    matchedCards.push(card);
+                    endGame();
                   });
               } else {
                   console.log("Nope, they don't match. Try again.");
@@ -84,11 +89,24 @@ function click(card) {
                   });
               };
           shownCards = [];
+          movesCount();
           };
         }, 1500);
     });
 };
 
+
+function endGame() {
+  if (matchedCards.length === cardsList.length) {
+    console.log("You won!!! Congrats!");
+  };
+};
+
+function movesCount() {
+  count++;
+  moves.innerHTML = count;
+  return count;
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
