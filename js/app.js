@@ -15,6 +15,33 @@ const deck = document.querySelector(".deck");
 
 const moves = document.querySelector(".moves");
 
+const timer = document.querySelector("#timer");
+
+const congratsWindow = document.querySelector(".modal");
+
+const restartButton = document.querySelector(".restart");
+
+// Define variables where shown or matched cards will be stored
+
+let shownCards = [];
+let matchedCards = [];
+
+let count = 0;
+let seconds = 0;
+let firstClick = true;
+
+
+let startTimer
+
+function countSeconds() {
+    seconds ++;
+    timer.innerHTML = seconds;
+}
+
+function stopTimer() {
+    clearInterval(startTimer);
+}
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -22,6 +49,7 @@ const moves = document.querySelector(".moves");
  *   - add each card's HTML to the page
  */
 
+// Initialize the game
 cardsDisplay();
 
 function cardsDisplay() {
@@ -59,26 +87,21 @@ function shuffle(array) {
     return array;
 }
 
-// Define variables where shown or matched cards will be stored
 
-let shownCards = [];
-let matchedCards = [];
-
-let count = 0
-
-let firstClick = true;
-
-
+// Add event listener to a card
 function click(card) {
     card.addEventListener("click", function showCard() {
+        // Start timer on the first click
         if(firstClick) {
-            startTimer();
             firstClick = false;
+            startTimer = setInterval (countSeconds, 1000);
         };
+        // Open the clicked card
         if (shownCards.length < 2) {
             card.classList.add("open", "show");
             shownCards.push(card);
         };
+        // See if opened cards match
         setTimeout(function match() {
             if (shownCards.length === 2) {
                 if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
@@ -102,7 +125,7 @@ function click(card) {
 
 function endGame() {
     if (matchedCards.length === cardsList.length) {
-        endTimer();
+        stopTimer();
         openCongratsWindow();
     };
 };
@@ -115,6 +138,7 @@ function movesCount() {
 
 let howManyStars = 3;
 
+// Keep score based on the number of moves
 function stars() {
     if (count === 10) {
         const thirdStar = document.querySelector("i.third");
@@ -128,33 +152,22 @@ function stars() {
     };
 };
 
-const congratsWindow = document.querySelector(".modal");
-
 function openCongratsWindow() {
     const playButton = congratsWindow.querySelector("button");
-    playButton.addEventListener("click", restart);
+    playButton.addEventListener("click", function() {
+        congratsWindow.style.display = "none";
+    });
     congratsWindow.style.display = "block";
     const message = congratsWindow.querySelector("#message");
     message.innerHTML = "You've successfully completed the game in " + count + " move(s) and with " + howManyStars + " star(s). \n And all that in just " + seconds + " seconds!";
 }
 
-function restart() {
-    congratsWindow.style.display = "none";
-}
 
-let seconds = 0;
-const timer = document.querySelector("#timer");
 
-function startTimer() {
-    setInterval(function(){
-        seconds ++;
-        timer.innerHTML = seconds;
-    }, 1000);
-};
 
-function endTimer() {
-    clearInterval(startTimer);
-};
+
+
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
