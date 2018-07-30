@@ -98,6 +98,7 @@ function click(card) {
 
 function endGame() {
   if (matchedCards.length === cardsList.length) {
+    openCongratsWindow();
     console.log("You won!!! Congrats!");
   };
 };
@@ -111,17 +112,31 @@ function movesCount() {
 let howManyStars = 3;
 
 function stars() {
-  if (count > 10 && count < 16) {
+  if (count === 10) {
     const thirdStar = document.querySelector("i.third");
     thirdStar.classList.replace("fa-star", "fa-star-o");
     howManyStars--;
   };
-  if (count >= 16) {
+  if (count === 16) {
     const secondStar = document.querySelector("i.second");
     secondStar.classList.replace("fa-star", "fa-star-o");
     howManyStars--;
   };
 };
+
+const congratsWindow = document.querySelector(".modal");
+
+function openCongratsWindow() {
+    const playButton = congratsWindow.querySelector("button");
+    playButton.addEventListener("click", restart);
+    congratsWindow.style.display = "block";
+    const message = congratsWindow.querySelector("#message");
+    message.innerHTML = "You've successfully completed the game in " + count + " move(s) and with " + howManyStars + " star(s).";
+}
+
+function restart() {
+    congratsWindow.style.display = "none";
+}
 
 /*
  * set up the event listener for a card. If a card is clicked:
