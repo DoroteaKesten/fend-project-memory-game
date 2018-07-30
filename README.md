@@ -5,7 +5,7 @@ FEND P3
 ## Table of Contents
 
 * [About](#about)
-* [How to play](#how to play)
+* [How to play](#howtoplay)
 
 ## About
 
