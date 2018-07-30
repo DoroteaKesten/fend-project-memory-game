@@ -105,8 +105,23 @@ function endGame() {
 function movesCount() {
   count++;
   moves.innerHTML = count;
-  return count;
-}
+  stars();
+};
+
+let howManyStars = 3;
+
+function stars() {
+  if (count > 10 && count < 16) {
+    const thirdStar = document.querySelector("i.third");
+    thirdStar.classList.replace("fa-star", "fa-star-o");
+    howManyStars--;
+  };
+  if (count >= 16) {
+    const secondStar = document.querySelector("i.second");
+    secondStar.classList.replace("fa-star", "fa-star-o");
+    howManyStars--;
+  };
+};
 
 /*
  * set up the event listener for a card. If a card is clicked:
