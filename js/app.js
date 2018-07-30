@@ -23,24 +23,27 @@ const restartButton = document.querySelector(".restart");
 
 // Define variables where shown or matched cards will be stored
 
-let shownCards = [];
-let matchedCards = [];
+let shownCards,
+    matchedCards,
+    count,
+    seconds,
+    firstClick,
+    howManyStars;
 
-let count = 0;
-let seconds = 0;
-let firstClick = true;
+const thirdStar = document.querySelector("i.third");
+const secondStar = document.querySelector("i.second");
 
-
-let startTimer
+let startTimer;
 
 function countSeconds() {
     seconds ++;
     timer.innerHTML = seconds;
-}
+};
 
 function stopTimer() {
     clearInterval(startTimer);
-}
+};
+
 
 /*
  * Display the cards on the page
@@ -50,7 +53,7 @@ function stopTimer() {
  */
 
 // Initialize the game
-cardsDisplay();
+restart();
 
 function cardsDisplay() {
 
@@ -136,17 +139,13 @@ function movesCount() {
     stars();
 };
 
-let howManyStars = 3;
-
 // Keep score based on the number of moves
 function stars() {
     if (count === 10) {
-        const thirdStar = document.querySelector("i.third");
         thirdStar.classList.replace("fa-star", "fa-star-o");
         howManyStars--;
     };
     if (count === 16) {
-        const secondStar = document.querySelector("i.second");
         secondStar.classList.replace("fa-star", "fa-star-o");
         howManyStars--;
     };
@@ -156,16 +155,29 @@ function openCongratsWindow() {
     const playButton = congratsWindow.querySelector("button");
     playButton.addEventListener("click", function() {
         congratsWindow.style.display = "none";
+        restart();
     });
     congratsWindow.style.display = "block";
     const message = congratsWindow.querySelector("#message");
     message.innerHTML = "You've successfully completed the game in " + count + " move(s) and with " + howManyStars + " star(s). \n And all that in just " + seconds + " seconds!";
-}
+};
 
+function restart () {
+    shownCards = [];
+    matchedCards = [];
+    count = 0;
+    moves.innerHTML = 0;
+    seconds = 0;
+    timer.innerHTML = 0;
+    firstClick = true;
+    stopTimer();
+    howManyStars = 3;
+    secondStar.className = "fa fa-star second";
+    thirdStar.className = "fa fa-star third";
+    cardsDisplay();
+};
 
-
-
-
+restartButton.addEventListener("click", restart);
 
 
 /*
