@@ -66,62 +66,66 @@ let matchedCards = [];
 
 let count = 0
 
+let firstClick = true;
+
 
 function click(card) {
     card.addEventListener("click", function showCard() {
+        if(firstClick) {
+            startTimer();
+            firstClick = false;
+        };
         if (shownCards.length < 2) {
-              card.classList.add("open", "show");
-              shownCards.push(card);
+            card.classList.add("open", "show");
+            shownCards.push(card);
         };
         setTimeout(function match() {
-          if (shownCards.length === 2) {
-              if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
-                  console.log("They match! Keep going!");
-                  shownCards.forEach(function(card) {
-                    card.classList.add("match");
-                    matchedCards.push(card);
-                    endGame();
-                  });
-              } else {
-                  console.log("Nope, they don't match. Try again.");
-                  shownCards.forEach(function(card) {
+            if (shownCards.length === 2) {
+                if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
+                    shownCards.forEach(function(card) {
+                        card.classList.add("match");
+                        matchedCards.push(card);
+                        endGame();
+                });
+            } else {
+                shownCards.forEach(function(card) {
                     card.classList.remove("open", "show");
-                  });
-              };
-          shownCards = [];
-          movesCount();
-          };
+                });
+            };
+            shownCards = [];
+            movesCount();
+            };
         }, 1500);
     });
 };
 
 
 function endGame() {
-  if (matchedCards.length === cardsList.length) {
-    openCongratsWindow();
-    console.log("You won!!! Congrats!");
-  };
+    if (matchedCards.length === cardsList.length) {
+        endTimer();
+        openCongratsWindow();
+    };
 };
 
 function movesCount() {
-  count++;
-  moves.innerHTML = count;
-  stars();
+    count++;
+    moves.innerHTML = count;
+    stars();
 };
 
 let howManyStars = 3;
 
 function stars() {
-  if (count === 10) {
-    const thirdStar = document.querySelector("i.third");
-    thirdStar.classList.replace("fa-star", "fa-star-o");
-    howManyStars--;
-  };
-  if (count === 16) {
-    const secondStar = document.querySelector("i.second");
-    secondStar.classList.replace("fa-star", "fa-star-o");
-    howManyStars--;
-  };
+    if (count === 10) {
+        const thirdStar = document.querySelector("i.third");
+        thirdStar.classList.replace("fa-star", "fa-star-o");
+        howManyStars--;
+    };
+    if (count === 16) {
+        const secondStar = document.querySelector("i.second");
+        secondStar.classList.replace("fa-star", "fa-star-o");
+        howManyStars--;
+    };
 };
 
 const congratsWindow = document.querySelector(".modal");
@@ -131,13 +135,26 @@ function openCongratsWindow() {
     playButton.addEventListener("click", restart);
     congratsWindow.style.display = "block";
     const message = congratsWindow.querySelector("#message");
-    message.innerHTML = "You've successfully completed the game in " + count + " move(s) and with " + howManyStars + " star(s).";
+    message.innerHTML = "You've successfully completed the game in " + count + " move(s) and with " + howManyStars + " star(s). \n And all that in just " + seconds + " seconds!";
 }
 
 function restart() {
     congratsWindow.style.display = "none";
 }
 
+let seconds = 0;
+const timer = document.querySelector("#timer");
+
+function startTimer() {
+    setInterval(function(){
+        seconds ++;
+        timer.innerHTML = seconds;
+    }, 1000);
+};
+
+function endTimer() {
+    clearInterval(startTimer);
+};
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
