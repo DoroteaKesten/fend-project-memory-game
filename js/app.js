@@ -45,15 +45,15 @@ function stopTimer() {
 };
 
 
+// Initialize the game
+restart();
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
-
-// Initialize the game
-restart();
 
 function cardsDisplay() {
 
@@ -93,7 +93,7 @@ function shuffle(array) {
 
 // Add event listener to a card
 function click(card) {
-    card.addEventListener("click", function showCard() {
+    card.addEventListener("click", function() {
         // Start timer on the first click
         if(firstClick) {
             firstClick = false;
@@ -105,26 +105,27 @@ function click(card) {
             shownCards.push(card);
         };
         // See if opened cards match
-        setTimeout(function match() {
-            if (shownCards.length === 2) {
-                if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
-                    shownCards.forEach(function(card) {
-                        card.classList.add("match");
-                        matchedCards.push(card);
-                        endGame();
-                });
-            } else {
-                shownCards.forEach(function(card) {
-                    card.classList.remove("open", "show");
-                });
-            };
-            shownCards = [];
-            movesCount();
-            };
-        }, 1500);
+        if (shownCards.length === 2) {
+            setTimeout(match, 1000);
+        };
     });
 };
 
+function match() {
+    if (shownCards[0].innerHTML === shownCards[1].innerHTML) {
+        shownCards.forEach(function(card) {
+            card.classList.add("match");
+            matchedCards.push(card);
+            endGame();
+        });
+    } else {
+        shownCards.forEach(function(card) {
+            card.classList.remove("open", "show");
+        });
+    };
+    shownCards = [];
+    movesCount();
+};
 
 function endGame() {
     if (matchedCards.length === cardsList.length) {
