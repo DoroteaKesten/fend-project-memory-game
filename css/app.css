@@ -105,6 +105,10 @@ h1 {
     display: inline-block;
 }
 
+.score-panel .timer {
+  margin-left: 20px;
+}
+
 .score-panel .restart {
     float: right;
     cursor: pointer;
@@ -135,8 +139,4 @@ button {
 button:hover {
   background: #02ccba;
   color: black;
-}
-
-#timer {
-  margin-left: 20px;
 }

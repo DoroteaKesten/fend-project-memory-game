@@ -1,0 +1,19 @@
+@media screen and (max-width: 660px) {
+    .deck {
+        width: 100vw;
+        min-height: 100vw;
+    }
+    .deck .card {
+        height: 19vw;
+        width: 19vw;
+    }
+    .score-panel {
+        width: 280px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .deck {
+        padding: 24px;
+    }
+}
